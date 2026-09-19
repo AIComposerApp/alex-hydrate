@@ -1,0 +1,6 @@
+{
+  "name": "ALEX Hydration",
+  "description": "ALEX is a premium, minimalist hydration brand that re-engineers the everyday water bottle into a high-end design object.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
