@@ -10,6 +10,7 @@ import { StorySection } from './components/StorySection';
 import { CategoryRow } from './components/CategoryRow';
 import { TeaMakerShowcase } from './components/TeaMakerShowcase';
 import { InnovationSection } from './components/InnovationSection';
+import { Footer } from './components/Footer';
 
 export default function App() {
   return (
@@ -37,25 +38,8 @@ export default function App() {
         <InnovationSection />
       </main>
 
-      {/* Architectural Minimalist Footer */}
-      <footer className="w-full bg-[#121212] text-white/70 py-16 px-6 sm:px-12 border-t border-neutral-800">
-        <div className="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-6 text-sm">
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-black text-white tracking-tight">ALEX</span>
-            <span className="text-xs uppercase tracking-widest text-neutral-400">
-              Form Follows Hydration
-            </span>
-          </div>
-          <div className="flex items-center gap-6 text-xs text-neutral-400">
-            <span>Patented Mid-Seam Technology</span>
-            <span>ThermaShield™ Vacuum</span>
-            <span>90% Recycled Steel</span>
-          </div>
-          <div className="text-xs text-neutral-500">
-            © {new Date().getFullYear()} ALEX Bottle Inc. All rights reserved.
-          </div>
-        </div>
-      </footer>
+      {/* Architectural Deep Footer with Inward Rounded Edge, Pill Subscribe & TikTok Credit */}
+      <Footer />
     </div>
   );
 }

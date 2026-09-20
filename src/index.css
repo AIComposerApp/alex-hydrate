@@ -174,3 +174,108 @@
     cursor: auto;
   }
 }
+
+/* Bento Grid Fluid Gradient & Liquid Mesh Animations */
+@keyframes fluidMeshMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 50% 100%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 0%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes liquidOrbFloat1 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(35px, -30px) scale(1.18);
+  }
+  66% {
+    transform: translate(-30px, 25px) scale(0.88);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes liquidOrbFloat2 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(-35px, 30px) scale(0.86);
+  }
+  66% {
+    transform: translate(30px, -20px) scale(1.22);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+/* Charcoal Vessel: Rich Rose-Mauve (#F4B6AE ↔ #E58C80) */
+.bento-fluid-rose {
+  background: linear-gradient(
+    130deg,
+    #f4b6ae 0%,
+    #ffccc4 25%,
+    #e58c80 50%,
+    #f09c91 75%,
+    #f4b6ae 100%
+  );
+  background-size: 300% 300%;
+  animation: fluidMeshMove 6.5s ease-in-out infinite;
+  will-change: background-position;
+  transform: translateZ(0);
+}
+
+/* Terracotta Tumbler: Deep Terracotta to Vibrant Sunset Amber (#E05A2B ↔ #F38C45) */
+.bento-fluid-terracotta {
+  background: linear-gradient(
+    125deg,
+    #e05a2b 0%,
+    #ffa46b 25%,
+    #f38c45 50%,
+    #c44216 75%,
+    #e05a2b 100%
+  );
+  background-size: 300% 300%;
+  animation: fluidMeshMove 6s ease-in-out infinite;
+  will-change: background-position;
+  transform: translateZ(0);
+}
+
+/* Lavender Vessel: Creamy Vanilla Gold to Soft Electric Lilac (#FBE698 ↔ #D0B7FA) */
+.bento-fluid-lavender {
+  background: linear-gradient(
+    135deg,
+    #fbe698 0%,
+    #fff0b3 25%,
+    #d0b7fa 50%,
+    #b996f8 75%,
+    #fbe698 100%
+  );
+  background-size: 300% 300%;
+  animation: fluidMeshMove 7s ease-in-out infinite;
+  will-change: background-position;
+  transform: translateZ(0);
+}
+
+.animate-liquid-orb-1 {
+  animation: liquidOrbFloat1 7s ease-in-out infinite;
+}
+
+.animate-liquid-orb-2 {
+  animation: liquidOrbFloat2 8.5s ease-in-out infinite;
+}
