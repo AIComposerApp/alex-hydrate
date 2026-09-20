@@ -9,12 +9,12 @@ import { Footer } from './components/Footer';
 
 export default function App() {
   return (
-    <div className="home min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-white text-neutral-900 selection:bg-neutral-900 selection:text-white">
+    <div className="home min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-[#000000] text-neutral-900 selection:bg-neutral-900 selection:text-white">
       {/* Floating Header: Desktop & Tablet unified top capsule; Mobile bottom floating light bar */}
       <Header />
 
       {/* Main Content Flow: Hero -> Story Section with Scroll Animation -> Category Row with interactive hover -> Tea Maker Pro 360 Showcase -> Innovation */}
-      <main id="main-content" className="w-full max-w-[100vw] overflow-x-hidden outline-none">
+      <main id="main-content" className="w-full max-w-[100vw] overflow-x-hidden outline-none bg-[#000000]">
         {/* Full-width Hero with Cloudinary Video & Mobile typography layout */}
         <Hero />
 

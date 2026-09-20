@@ -80,7 +80,6 @@ const ProductSlide = React.memo<ProductSlideProps>(
     index,
     activeIndex,
     slideSpacing,
-    isSectionVisible,
     onSelect,
     slideRef,
   }) => {
@@ -107,18 +106,14 @@ const ProductSlide = React.memo<ProductSlideProps>(
           transition: 'none',
         }}
       >
-        {isSectionVisible ? (
-          <img
-            src={variant.sliderImage}
-            alt={variant.name}
-            draggable={false}
-            loading="lazy"
-            decoding="async"
-            className="max-h-[440px] sm:max-h-[520px] md:max-h-[600px] lg:max-h-[680px] xl:max-h-[740px] w-full select-none object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.85)] pointer-events-none"
-          />
-        ) : (
-          <div className="w-full h-full" />
-        )}
+        <img
+          src={variant.sliderImage}
+          alt={variant.name}
+          draggable={false}
+          loading={index === activeIndex ? 'eager' : 'lazy'}
+          decoding="async"
+          className="max-h-[440px] sm:max-h-[520px] md:max-h-[600px] lg:max-h-[680px] xl:max-h-[740px] w-full select-none object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.85)] pointer-events-none"
+        />
       </div>
     );
   }
@@ -130,12 +125,11 @@ interface ColorSwatchButtonProps {
   variant: ProductVariant;
   index: number;
   isSelected: boolean;
-  isSectionVisible: boolean;
   onSelect: (index: number) => void;
 }
 
 const ColorSwatchButton = React.memo<ColorSwatchButtonProps>(
-  ({ variant, index, isSelected, isSectionVisible, onSelect }) => (
+  ({ variant, index, isSelected, onSelect }) => (
     <button
       key={variant.id}
       onClick={() => onSelect(index)}
@@ -147,17 +141,13 @@ const ColorSwatchButton = React.memo<ColorSwatchButtonProps>(
           : 'ring-2 ring-white/10 hover:ring-white/40 hover:scale-105 opacity-70 hover:opacity-100'
       }`}
     >
-      {isSectionVisible ? (
-        <img
-          src={variant.thumbImage}
-          alt={variant.name}
-          loading="lazy"
-          decoding="async"
-          className="size-full object-contain pointer-events-none transition-transform duration-300 group-hover:scale-105"
-        />
-      ) : (
-        <div className="size-full rounded-lg bg-neutral-900/50" />
-      )}
+      <img
+        src={variant.thumbImage}
+        alt={variant.name}
+        loading="lazy"
+        decoding="async"
+        className="size-full object-contain pointer-events-none transition-transform duration-300 group-hover:scale-105"
+      />
     </button>
   )
 );
@@ -166,7 +156,6 @@ ColorSwatchButton.displayName = 'ColorSwatchButton';
 export const TeaMakerShowcase: React.FC = React.memo(() => {
   const [activeIndex, setActiveIndex] = useState<number>(2); // Default to Obsidian Black
   const [slideSpacing, setSlideSpacing] = useState<number>(480);
-  const [isSectionVisible, setIsSectionVisible] = useState<boolean>(false);
 
   // Direction of text gradient fill: 'forward' (left-to-right 90deg) vs 'reverse' (right-to-left 270deg)
   const [fillDirection, setFillDirection] = useState<'forward' | 'reverse'>('forward');
@@ -180,33 +169,19 @@ export const TeaMakerShowcase: React.FC = React.memo(() => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // IntersectionObserver to load product images lazily
+  // Asset decoding & preloading triggered on mount
   useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-
-    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
-      setIsSectionVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setIsSectionVisible(true);
-            observer.disconnect();
-            break;
-          }
-        }
-      },
-      { rootMargin: '300px 0px', threshold: 0.01 }
-    );
-
-    observer.observe(el);
-    return () => {
-      observer.disconnect();
-    };
+    const urls = [
+      ...PRODUCT_VARIANTS.map((v) => v.sliderImage),
+      ...PRODUCT_VARIANTS.map((v) => v.thumbImage),
+    ];
+    urls.forEach((url) => {
+      const img = new Image();
+      img.src = url;
+      if (img.decode) {
+        img.decode().catch(() => {});
+      }
+    });
   }, []);
 
   // Interaction tracking state (kept purely in refs for 0ms input latency & 144fps responsiveness)
@@ -247,22 +222,6 @@ export const TeaMakerShowcase: React.FC = React.memo(() => {
     window.addEventListener('resize', updateSlideSpacing, { passive: true });
     return () => window.removeEventListener('resize', updateSlideSpacing);
   }, [updateSlideSpacing]);
-
-  // Asset decoding & preloading triggered only after IntersectionObserver fires
-  useEffect(() => {
-    if (!isSectionVisible) return;
-    const urls = [
-      ...PRODUCT_VARIANTS.map((v) => v.sliderImage),
-      ...PRODUCT_VARIANTS.map((v) => v.thumbImage),
-    ];
-    urls.forEach((url) => {
-      const img = new Image();
-      img.src = url;
-      if (img.decode) {
-        img.decode().catch(() => {});
-      }
-    });
-  }, [isSectionVisible]);
 
   // Smooth lerp animator for text reveal
   const runTextLerp = useCallback(() => {
@@ -614,7 +573,6 @@ export const TeaMakerShowcase: React.FC = React.memo(() => {
                   index={index}
                   activeIndex={activeIndex}
                   slideSpacing={slideSpacing}
-                  isSectionVisible={isSectionVisible}
                   onSelect={handleSelectVariant}
                   slideRef={(el) => {
                     slideRefs.current[index] = el;
@@ -635,7 +593,6 @@ export const TeaMakerShowcase: React.FC = React.memo(() => {
                 variant={variant}
                 index={idx}
                 isSelected={activeIndex === idx}
-                isSectionVisible={isSectionVisible}
                 onSelect={handleSelectVariant}
               />
             ))}
