@@ -69,7 +69,6 @@ interface ProductSlideProps {
   index: number;
   activeIndex: number;
   slideSpacing: number;
-  isSectionVisible: boolean;
   onSelect: (index: number) => void;
   slideRef: (el: HTMLDivElement | null) => void;
 }

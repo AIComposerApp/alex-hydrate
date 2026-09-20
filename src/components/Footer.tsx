@@ -84,30 +84,11 @@ export const Footer: React.FC = () => {
       />
 
       {/* 
-        Architectural concave scoop connecting the light #faf9f6 section to deep canvas.
-        Filled with #0a0a0a to match the gradient start seamlessly.
-      */}
-      <div className="w-full overflow-hidden leading-none select-none pointer-events-none -mb-px bg-[#faf9f6]">
-        <svg
-          viewBox="0 0 1440 96"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-10 sm:h-14 lg:h-20 text-[#0a0a0a] block"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0,0 C440,96 1000,96 1440,0 L1440,96 L0,96 Z"
-            fill="currentColor"
-          />
-        </svg>
-      </div>
-
-      {/* 
         Main Footer Container:
         - overflow-visible inside so the bottle top can move freely without clipping.
         - Outer footer has overflow-hidden on the X axis, ensuring nothing pushes the screen width horizontally.
       */}
-      <div className="relative container mx-auto max-w-7xl px-5 sm:px-8 lg:px-12 pt-8 sm:pt-14 lg:pt-16 pb-8 sm:pb-12 overflow-visible">
+      <div className="relative container mx-auto max-w-7xl px-5 sm:px-8 lg:px-12 pt-14 sm:pt-16 lg:pt-20 pb-8 sm:pb-12 overflow-visible">
         {/* 
           Left Content Block:
           Mobile: Takes 55-60% max-width on the left so the text never collides or runs behind the bottle.
