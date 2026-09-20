@@ -1,30 +1,46 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 export const Hero: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
+  useEffect(() => {
+    // Ensure muted is set on the native element to guarantee instant mobile autoplay
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => setIsVideoLoaded(true))
+          .catch(() => {
+            // Autoplay gracefully prevented; fallback poster image is displayed
+          });
+      }
+    }
+  }, []);
 
   return (
     <section
       id="hero-section"
       className="relative w-full h-[100svh] min-h-[620px] max-h-[1100px] overflow-hidden bg-black flex items-end justify-center"
     >
-      {/* Fallback Poster Image from Cloudinary asset with fast loading optimizations */}
+      {/* Fallback Poster Image from Cloudinary asset with original 1080p quality */}
       <img
         id="hero-fallback-image"
         className="absolute inset-0 z-0 h-full w-full object-cover object-center"
-        src="https://res.cloudinary.com/divndlntm/video/upload/f_auto,q_auto/Water_pouring_into_bottle_1080p_20260920185607_zt6kh6.jpg"
+        src="https://res.cloudinary.com/divndlntm/video/upload/Water_pouring_into_bottle_1080p_20260920185607_zt6kh6.jpg"
         alt="ALEX — Form Follows Hydration"
         loading="eager"
         decoding="async"
         fetchPriority="high"
       />
 
-      {/* Cloudinary Video: Full-width, full-height object-cover */}
+      {/* Cloudinary Video: Original 1080p quality with HTTP/2 byte-range streaming */}
       <video
         id="hero-background-video"
         ref={videoRef}
-        className={`absolute inset-0 z-10 h-full w-full object-cover object-center transition-opacity duration-700 ${
+        className={`absolute inset-0 z-10 h-full w-full object-cover object-center transition-opacity duration-500 ${
           isVideoLoaded ? 'opacity-100' : 'opacity-90'
         }`}
         aria-label="ALEX — Perfected by Technology"
@@ -35,6 +51,7 @@ export const Hero: React.FC = () => {
         preload="auto"
         poster="https://res.cloudinary.com/divndlntm/video/upload/Water_pouring_into_bottle_1080p_20260920185607_zt6kh6.jpg"
         onLoadedData={() => setIsVideoLoaded(true)}
+        onCanPlay={() => setIsVideoLoaded(true)}
       >
         <source
           src="https://res.cloudinary.com/divndlntm/video/upload/Water_pouring_into_bottle_1080p_20260920185607_zt6kh6.mp4"
