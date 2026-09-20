@@ -13,7 +13,7 @@ export const Hero: React.FC = () => {
       <img
         id="hero-fallback-image"
         className="absolute inset-0 z-0 h-full w-full object-cover object-center"
-        src="https://res.cloudinary.com/divndlntm/video/upload/f_auto,q_auto/Water_pouring_into_changing_bottle_20260919100923_bwkel4.jpg"
+        src="https://res.cloudinary.com/divndlntm/video/upload/f_auto,q_auto/Water_pouring_into_bottle_1080p_20260920185607_zt6kh6.jpg"
         alt="ALEX — Form Follows Hydration"
         loading="eager"
         decoding="async"
@@ -33,11 +33,11 @@ export const Hero: React.FC = () => {
         muted
         playsInline
         preload="auto"
-        poster="https://res.cloudinary.com/divndlntm/video/upload/Water_pouring_into_changing_bottle_20260919100923_bwkel4.jpg"
+        poster="https://res.cloudinary.com/divndlntm/video/upload/Water_pouring_into_bottle_1080p_20260920185607_zt6kh6.jpg"
         onLoadedData={() => setIsVideoLoaded(true)}
       >
         <source
-          src="https://res.cloudinary.com/divndlntm/video/upload/Water_pouring_into_changing_bottle_20260919100923_bwkel4.mp4"
+          src="https://res.cloudinary.com/divndlntm/video/upload/Water_pouring_into_bottle_1080p_20260920185607_zt6kh6.mp4"
           type="video/mp4"
         />
       </video>
