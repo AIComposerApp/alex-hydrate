@@ -58,12 +58,12 @@ const PRODUCT_VARIANTS: ProductVariant[] = [
 // Helper to calculate circular relative offset (-2, -1, 0, 1, 2)
 function getOffset(index: number, activeIndex: number, total: number): number {
   let diff = index - activeIndex;
-  if (diff > total / 2) diff -= total;
-  if (diff < -total / 2) diff += total;
+  while (diff > total / 2) diff -= total;
+  while (diff < -total / 2) diff += total;
   return diff;
 }
 
-// Memoized slide item to prevent unnecessary re-renders when parent states update
+// Memoized slide item to prevent any re-render when not active
 interface ProductSlideProps {
   variant: ProductVariant;
   index: number;
@@ -87,12 +87,13 @@ const ProductSlide = React.memo<ProductSlideProps>(
     const total = PRODUCT_VARIANTS.length;
     const baseOffset = getOffset(index, activeIndex, total);
     const absDist = Math.abs(baseOffset);
+
     const initialTranslateX = baseOffset * slideSpacing;
     const initialTranslateY = absDist * 28;
     const initialScale = Math.max(0.48, 1.05 - absDist * 0.28);
     const initialOpacity =
       absDist > 1.35 ? 0 : Math.max(0, 1 - Math.pow(absDist / 1.35, 1.6) * 0.95);
-    const initialZIndex = absDist < 0.45 ? 45 : Math.max(1, 30 - Math.round(absDist * 10));
+    const initialZIndex = absDist === 0 ? 45 : Math.max(1, 30 - Math.round(absDist * 10));
 
     return (
       <div
@@ -167,12 +168,19 @@ export const TeaMakerShowcase: React.FC = React.memo(() => {
   const [slideSpacing, setSlideSpacing] = useState<number>(480);
   const [isSectionVisible, setIsSectionVisible] = useState<boolean>(false);
 
+  // Direction of text gradient fill: 'forward' (left-to-right 90deg) vs 'reverse' (right-to-left 270deg)
+  const [fillDirection, setFillDirection] = useState<'forward' | 'reverse'>('forward');
+  const [textFillProgress, setTextFillProgress] = useState<number>(1);
+  const textProgressRef = useRef<number>(1);
+  const textTargetProgressRef = useRef<number>(1);
+  const textRafIdRef = useRef<number | null>(null);
+
   const sectionRef = useRef<HTMLElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // IntersectionObserver to load product images lazily, reducing the impact of scroll-related performance bottlenecks
+  // IntersectionObserver to load product images lazily
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -256,6 +264,29 @@ export const TeaMakerShowcase: React.FC = React.memo(() => {
     });
   }, [isSectionVisible]);
 
+  // Smooth lerp animator for text reveal
+  const runTextLerp = useCallback(() => {
+    if (textRafIdRef.current !== null) return;
+
+    const tick = () => {
+      const target = textTargetProgressRef.current;
+      const current = textProgressRef.current;
+      const diff = target - current;
+
+      if (Math.abs(diff) > 0.004) {
+        textProgressRef.current += diff * 0.16; // Buttery organic ease
+        setTextFillProgress(textProgressRef.current);
+        textRafIdRef.current = requestAnimationFrame(tick);
+      } else {
+        textProgressRef.current = target;
+        setTextFillProgress(target);
+        textRafIdRef.current = null;
+      }
+    };
+
+    textRafIdRef.current = requestAnimationFrame(tick);
+  }, []);
+
   // Direct GPU update helper: transforms slides directly without triggering React reconciliations
   const applySlidePositions = useCallback((dragOffset: number, isDirectDrag: boolean) => {
     const total = PRODUCT_VARIANTS.length;
@@ -303,8 +334,22 @@ export const TeaMakerShowcase: React.FC = React.memo(() => {
       applySlidePositions(0, true);
     } else {
       applySlidePositions(0, false);
+      // Trigger liquid fill from 0 to 1 when activeIndex changes
+      textProgressRef.current = 0.05;
+      textTargetProgressRef.current = 1.0;
+      setTextFillProgress(0.05);
+      runTextLerp();
     }
-  }, [activeIndex, slideSpacing, applySlidePositions]);
+  }, [activeIndex, slideSpacing, applySlidePositions, runTextLerp]);
+
+  // Cleanup lerp animation on unmount
+  useEffect(() => {
+    return () => {
+      if (textRafIdRef.current !== null) {
+        cancelAnimationFrame(textRafIdRef.current);
+      }
+    };
+  }, []);
 
   // Pointer Down (Mouse or Touch)
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -379,6 +424,23 @@ export const TeaMakerShowcase: React.FC = React.memo(() => {
         if (rafIdRef.current === null) {
           rafIdRef.current = requestAnimationFrame(() => {
             applySlidePositions(currentDeltaXRef.current, true);
+
+            // Dragged to the right (> 0): dragging bottle forward -> reveal in forward 90deg direction
+            // Dragged to the left (< 0): dragging bottle in reverse -> reveal in reverse 270deg direction
+            if (currentDeltaXRef.current < -8) {
+              setFillDirection('reverse');
+            } else if (currentDeltaXRef.current > 8) {
+              setFillDirection('forward');
+            }
+
+            // Dynamically drive text reveal/reverse proportionally with drag movement
+            const spacing = slideSpacingRef.current || 480;
+            const normalizedDrag = Math.min(1, Math.abs(currentDeltaXRef.current) / (spacing * 0.55));
+            // As bottle is dragged away, text gracefully wipes back toward 0%
+            const dynamicProgress = Math.max(0, 1 - normalizedDrag * 0.9);
+            textProgressRef.current = dynamicProgress;
+            setTextFillProgress(dynamicProgress);
+
             rafIdRef.current = null;
           });
         }
@@ -404,13 +466,23 @@ export const TeaMakerShowcase: React.FC = React.memo(() => {
 
       let nextIndex = activeIndexRef.current;
       if (isSwipeLeft) {
+        // Dragged left -> moving to next bottle -> animate forward into next
+        setFillDirection('forward');
         nextIndex = (activeIndexRef.current + 1) % total;
       } else if (isSwipeRight) {
+        // Dragged right -> moving to previous bottle -> animate in reverse
+        setFillDirection('reverse');
         nextIndex = (activeIndexRef.current - 1 + total) % total;
       }
 
-      // Commit new activeIndex
-      setActiveIndex(nextIndex);
+      if (nextIndex !== activeIndexRef.current) {
+        // Change to new variant - will trigger the 0 -> 1 liquid fill reveal via useEffect
+        setActiveIndex(nextIndex);
+      } else {
+        // Snapped back to current variant - smoothly lerp text back to 100%
+        textTargetProgressRef.current = 1.0;
+        runTextLerp();
+      }
 
       currentDeltaXRef.current = 0;
       velocityRef.current = 0;
@@ -435,7 +507,7 @@ export const TeaMakerShowcase: React.FC = React.memo(() => {
       window.removeEventListener('pointercancel', handleGlobalPointerUp);
       if (rafIdRef.current !== null) cancelAnimationFrame(rafIdRef.current);
     };
-  }, [applySlidePositions]);
+  }, [applySlidePositions, runTextLerp]);
 
   // Memoize active product variant to avoid unnecessary object lookups & prop recalculations
   const activeVariant = useMemo(
@@ -452,9 +524,30 @@ export const TeaMakerShowcase: React.FC = React.memo(() => {
   // Memoized variant selection handler passed to memoized children
   const handleSelectVariant = useCallback((index: number) => {
     if (!isDraggingRef.current || Math.abs(currentDeltaXRef.current) < 15) {
+      // Set directional gradient depending on whether target is before or after
+      if (index < activeIndexRef.current) {
+        setFillDirection('reverse');
+      } else if (index > activeIndexRef.current) {
+        setFillDirection('forward');
+      }
       setActiveIndex(index);
     }
   }, []);
+
+  // Compute bidirectional linear text reveal matching StorySection.tsx
+  // Supports forward (90deg, left-to-right) and reverse (270deg, right-to-left)
+  // Uses #ffffff text fill linearly revealed over rgba(255,255,255,0.28) muted base
+  const getTextLinearStyle = useMemo(() => {
+    const pct = Math.min(100, Math.max(0, textFillProgress * 100)).toFixed(1);
+    const angle = fillDirection === 'reverse' ? '270deg' : '90deg';
+    return {
+      backgroundImage: `linear-gradient(${angle}, #ffffff 0%, #ffffff ${pct}%, rgba(255, 255, 255, 0.28) ${pct}%, rgba(255, 255, 255, 0.28) 100%)`,
+      WebkitBackgroundClip: 'text',
+      backgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      display: 'inline',
+    };
+  }, [textFillProgress, fillDirection]);
 
   return (
     <section
@@ -463,7 +556,7 @@ export const TeaMakerShowcase: React.FC = React.memo(() => {
       style={{ backgroundColor: '#000000' }}
       className="relative overflow-hidden bg-[#000000] py-20 lg:py-28 xl:py-32 text-white select-none"
     >
-      {/* Studio Background: Pure CSS true pitch-black with subtle dark-charcoal ambient spotlight (0ms paint, 0 lag) */}
+      {/* Studio Background: Pure CSS true pitch-black with subtle dark-charcoal ambient spotlight */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#000000]">
         <div
           className="absolute inset-0"
@@ -479,109 +572,95 @@ export const TeaMakerShowcase: React.FC = React.memo(() => {
       <div className="relative z-10 w-full">
         {/* Header Badge & Title */}
         <div className="flex flex-col items-center justify-center gap-3 sm:gap-4 px-6 text-center mb-8 lg:mb-14">
-          <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-1.5 shadow-xs">
-            <span className="text-xs font-medium text-white/60 tracking-normal">ALEX Modular</span>
+          <div className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-4 py-1.5 shadow-xs backdrop-blur-sm">
+            <span className="text-xs font-medium text-white/70 tracking-normal">
+              Modular Editions
+            </span>
           </div>
           <h2 className="text-[30px] sm:text-[40px] md:text-[50px] lg:text-[62px] xl:text-[70px] font-normal leading-[1.15] tracking-tight text-white">
             ALEX Stainless Bottle Pro
           </h2>
         </div>
 
-        {/* Main Interactive Carousel Area */}
-        <div className="w-full mt-2 lg:mt-6">
-          {/* Edge gradient fade masks (High performance alternative to CSS mask-image) */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-28 lg:w-40 bg-gradient-to-r from-[#000000] to-transparent z-40" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-28 lg:w-40 bg-gradient-to-l from-[#000000] to-transparent z-40" />
-
-          <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 overflow-hidden">
+        {/* Main Carousel Area */}
+        <div className="relative w-full">
+          <div
+            ref={sliderRef}
+            onPointerDown={handlePointerDown}
+            className="relative w-full overflow-visible touch-none cursor-grab active:cursor-grabbing select-none"
+            style={{ touchAction: 'pan-y' }}
+          >
+            {/* Custom follower drag badge (Desktop pointer-events-none) */}
             <div
-              ref={sliderRef}
-              onPointerDown={handlePointerDown}
-              className="relative cursor-default md:cursor-grab md:active:cursor-grabbing select-none py-4 sm:py-6 lg:py-8 touch-pan-y md:touch-none"
+              ref={cursorRef}
+              className="pointer-events-none absolute top-0 left-0 z-50 hidden md:flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-white/15 backdrop-blur-xl border border-white/30 text-white shadow-2xl transition-opacity duration-200 opacity-0"
+              style={{
+                willChange: 'transform, opacity',
+              }}
             >
-              {/* Smooth Follower Drag Cursor (Desktop only, hardware accelerated) */}
-              <div
-                ref={cursorRef}
-                className="pointer-events-none absolute top-0 left-0 z-50 hidden md:flex items-center justify-center gap-2 rounded-full border border-white/20 bg-neutral-900 shadow-[0_12px_36px_rgba(0,0,0,0.8)] transition-opacity duration-300 ease-out opacity-0 will-change-transform"
-                style={{
-                  width: '84px',
-                  height: '84px',
-                  transform: 'translate3d(-9999px, -9999px, 0)',
-                }}
-              >
-                <ChevronLeft className="w-3.5 h-3.5 text-white/70" />
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-white/90 select-none">
-                  DRAG
-                </span>
-                <ChevronRight className="w-3.5 h-3.5 text-white/70" />
-              </div>
-
-              {/*
-                OCCLUSION SHIELD BEHIND CENTER BOTTLE:
-                Sits directly behind the active hero bottle at z-[35] (hero bottle at z-[45]).
-                Occludes background bottles cleanly behind the center product without expensive GPU blur shaders.
-              */}
-              <div
-                className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[35] w-[360px] sm:w-[480px] md:w-[580px] lg:w-[680px] xl:w-[740px] h-[460px] sm:h-[540px] md:h-[640px] lg:h-[720px] xl:h-[780px] rounded-full"
-                style={{
-                  background:
-                    'radial-gradient(ellipse at center, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0) 75%)',
-                }}
-              />
-
-              {/* Slider track: Expanded to monumental scale on desktop */}
-              <div className="relative w-full h-[460px] sm:h-[540px] md:h-[620px] lg:h-[700px] xl:h-[760px] flex items-center justify-center">
-                {PRODUCT_VARIANTS.map((variant, index) => (
-                  <ProductSlide
-                    key={variant.id}
-                    variant={variant}
-                    index={index}
-                    activeIndex={activeIndex}
-                    slideSpacing={slideSpacing}
-                    isSectionVisible={isSectionVisible}
-                    onSelect={handleSelectVariant}
-                    slideRef={(el) => {
-                      slideRefs.current[index] = el;
-                    }}
-                  />
-                ))}
-              </div>
+              <ChevronLeft className="w-3.5 h-3.5 text-white/70" />
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-white/90 select-none">
+                DRAG
+              </span>
+              <ChevronRight className="w-3.5 h-3.5 text-white/70" />
             </div>
-          </div>
 
-          {/* Bottom Control Bar: Color Swatches, Dynamic Edition Description, and Explore Button */}
-          <div className="container max-w-6xl mx-auto px-6 sm:px-8 mt-6 sm:mt-10 lg:mt-12 flex flex-col items-center gap-6 lg:flex-row lg:justify-between">
-            {/* Swatch Selection Buttons */}
-            <div className="flex items-center gap-3 sm:gap-4 order-1 lg:order-1">
-              {PRODUCT_VARIANTS.map((variant, idx) => (
-                <ColorSwatchButton
+            {/* Slider track: Expanded to monumental scale on desktop with pure optical depth */}
+            <div className="relative w-full h-[460px] sm:h-[540px] md:h-[620px] lg:h-[700px] xl:h-[760px] flex items-center justify-center">
+              {PRODUCT_VARIANTS.map((variant, index) => (
+                <ProductSlide
                   key={variant.id}
                   variant={variant}
-                  index={idx}
-                  isSelected={activeIndex === idx}
+                  index={index}
+                  activeIndex={activeIndex}
+                  slideSpacing={slideSpacing}
                   isSectionVisible={isSectionVisible}
                   onSelect={handleSelectVariant}
+                  slideRef={(el) => {
+                    slideRefs.current[index] = el;
+                  }}
                 />
               ))}
             </div>
+          </div>
+        </div>
 
-            {/* Dynamic Variant Description Text */}
-            <div className="text-center text-sm sm:text-base text-white/80 max-w-md lg:max-w-xs lg:text-left order-2 lg:order-2 min-h-[48px] flex items-center justify-center lg:justify-start">
-              <p key={activeVariant.id} className="leading-relaxed animate-fadeIn">
-                {activeVariant.description}
-              </p>
-            </div>
+        {/* Bottom Control Bar: Color Swatches, Dynamic Edition Description, and Explore Button */}
+        <div className="container max-w-6xl mx-auto px-6 sm:px-8 mt-6 sm:mt-10 lg:mt-12 flex flex-col items-center gap-6 lg:flex-row lg:justify-between">
+          {/* Swatch Selection Buttons */}
+          <div className="flex items-center gap-3 sm:gap-4 order-1 lg:order-1">
+            {PRODUCT_VARIANTS.map((variant, idx) => (
+              <ColorSwatchButton
+                key={variant.id}
+                variant={variant}
+                index={idx}
+                isSelected={activeIndex === idx}
+                isSectionVisible={isSectionVisible}
+                onSelect={handleSelectVariant}
+              />
+            ))}
+          </div>
 
-            {/* Explore CTA Pill Button */}
-            <div className="order-3 lg:order-3">
-              <a
-                href={exploreHref}
-                className="flex cursor-pointer items-center justify-center gap-2.5 rounded-full font-medium tracking-normal transition-all duration-200 ease-in-out bg-white text-[#121212] hover:shadow-[0_0_0_4px_rgba(255,255,255,0.25),0_0_0_8px_rgba(255,255,255,0.1)] active:scale-95 px-7 py-3 text-sm h-12"
-              >
-                <span>Explore</span>
-                <ArrowRight className="h-4 w-4 text-[#121212]" />
-              </a>
-            </div>
+          {/* Dynamic Variant Description Text with Bidirectional Liquid Linear Fill Reveal */}
+          <div className="text-center text-sm sm:text-base max-w-md lg:max-w-xs lg:text-left order-2 lg:order-2 min-h-[48px] flex items-center justify-center lg:justify-start">
+            <p
+              key={activeVariant.id}
+              style={getTextLinearStyle}
+              className="leading-relaxed transition-none font-normal tracking-normal"
+            >
+              {activeVariant.description}
+            </p>
+          </div>
+
+          {/* Explore CTA Pill Button */}
+          <div className="order-3 lg:order-3">
+            <a
+              href={exploreHref}
+              className="flex cursor-pointer items-center justify-center gap-2.5 rounded-full font-medium tracking-normal transition-all duration-200 ease-in-out bg-white text-[#121212] hover:shadow-[0_0_0_4px_rgba(255,255,255,0.25),0_0_0_8px_rgba(255,255,255,0.1)] active:scale-95 px-7 py-3 text-sm h-12"
+            >
+              <span>Explore</span>
+              <ArrowRight className="h-4 w-4 text-[#121212]" />
+            </a>
           </div>
         </div>
       </div>
