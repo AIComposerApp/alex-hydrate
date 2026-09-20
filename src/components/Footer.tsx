@@ -66,7 +66,7 @@ export const Footer: React.FC = () => {
     <footer
       ref={containerRef}
       id="alex-footer"
-      className="relative z-30 w-full text-white overflow-visible select-none"
+      className="relative z-30 w-full text-white overflow-hidden select-none"
       style={{
         // Architectural static monochrome gradient (deep obsidian, charcoal, subtle silver-white ambient radial highlight)
         background:
@@ -104,8 +104,8 @@ export const Footer: React.FC = () => {
 
       {/* 
         Main Footer Container:
-        - overflow-visible so the bottle top freely extends and displays over the section above.
-        - Fixed padding ensures the footer height never stretches or expands downward.
+        - overflow-visible inside so the bottle top can move freely without clipping.
+        - Outer footer has overflow-hidden on the X axis, ensuring nothing pushes the screen width horizontally.
       */}
       <div className="relative container mx-auto max-w-7xl px-5 sm:px-8 lg:px-12 pt-8 sm:pt-14 lg:pt-16 pb-8 sm:pb-12 overflow-visible">
         {/* 
@@ -215,11 +215,11 @@ export const Footer: React.FC = () => {
         {/* 
           Right Product Bottle Display:
           - Pure transparent standalone bottle PNG with zero conflicting background boxes or dark bounding blocks.
-          - Mask-image/clip-path smoothly dissolves only the lower body of the bottle directly into transparency.
-          - No rectangular container or overlay shadow that conflicts with the background.
+          - Mask-image smoothly dissolves only the lower body of the bottle directly into transparency.
+          - No horizontal overflow beyond screen boundaries (translate clamped).
         */}
         <div
-          className="absolute right-0 bottom-0 w-[50%] sm:w-[48%] lg:w-[46%] max-w-[480px] h-[380px] sm:h-[480px] lg:h-[600px] pointer-events-none select-none flex items-end justify-end z-40 overflow-visible"
+          className="absolute right-0 bottom-0 w-[50%] sm:w-[48%] lg:w-[46%] max-w-[480px] h-[380px] sm:h-[480px] lg:h-[600px] pointer-events-none select-none flex items-end justify-end z-40 overflow-hidden"
         >
           <motion.div
             style={{
@@ -227,7 +227,7 @@ export const Footer: React.FC = () => {
               rotate: bottleRotate,
               transformOrigin: 'bottom center',
             }}
-            className="relative w-[280px] sm:w-[380px] lg:w-[460px] translate-x-10 sm:translate-x-6 lg:translate-x-2 flex justify-end items-end overflow-visible"
+            className="relative w-[280px] sm:w-[380px] lg:w-[460px] translate-x-2 sm:translate-x-0 flex justify-end items-end"
           >
             <img
               src={FOOTER_BOTTLE_IMG}

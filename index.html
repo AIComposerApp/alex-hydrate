@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" style="background-color: #000000; overflow-x: hidden; width: 100%;">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>ALEX — Form Follows Hydration</title>
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_64/v1789854644/ChatGPT_Image_Sep_19_2026_10_49_29_PM_batoch.png" />
     <link rel="apple-touch-icon" href="https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_180/v1789854644/ChatGPT_Image_Sep_19_2026_10_49_29_PM_batoch.png" />
@@ -22,14 +22,20 @@
     <link rel="preload" as="image" href="https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_1000/v1789934332/ChatGPT_Image_Sep_20_2026_08_54_23_PM_ofm4es.png" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
     <style>
-      html, body, #product-showcase-section {
+      html, body {
         background-color: #000000 !important;
+        overflow-x: hidden !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+      }
+      #product-showcase-section {
+        background-color: #000000 !important;
+        isolation: isolate;
       }
     </style>
   </head>
   <body style="background-color: #000000;">
-    <div id="root"></div>
+    <div id="root" style="overflow-x: hidden; width: 100%; max-width: 100vw;"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

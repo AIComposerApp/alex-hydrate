@@ -5,12 +5,15 @@
     font-family: "Plus Jakarta Sans", "PPObjectSans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
+  html,
   body {
     margin: 0;
     padding: 0;
     background-color: #000000;
     color: #ffffff;
-    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: clip; /* clip prevents horizontal scrollbars while preserving sticky/fixed positioning */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -68,214 +71,58 @@
   letter-spacing: -0.022em; /* -0.35px */
 }
 
-.leading-xl {
-  line-height: 1.15;
+/* Fluid Animated Gradient for Bento Cards */
+@keyframes fluid-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-/* Enhanced hero blur overlay with increased subtle blur */
+.bento-fluid-rose {
+  background: linear-gradient(-45deg, #fff2eb, #fbe8e8, #f5effe, #e8f0fe, #fff5f0);
+  background-size: 300% 300%;
+  animation: fluid-gradient 14s ease infinite;
+}
+
+.bento-fluid-terracotta {
+  background: linear-gradient(-45deg, #c2410c, #b43403, #9a3412, #ea580c, #c2410c);
+  background-size: 300% 300%;
+  animation: fluid-gradient 10s ease infinite;
+}
+
+.bento-fluid-lavender {
+  background: linear-gradient(-45deg, #f0e6ff, #e4ebff, #fbe8f2, #f5f0ff, #edf2ff);
+  background-size: 300% 300%;
+  animation: fluid-gradient 14s ease infinite;
+}
+
+/* Subtle video bottom blur overlay */
 .blur-overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  width: 100%;
-  height: 22rem; /* 352px - increased for more subtle blur coverage */
+  height: 260px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
   pointer-events: none;
-  z-index: 10;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.88) 0%,
-    rgba(0, 0, 0, 0.6) 35%,
-    rgba(0, 0, 0, 0.25) 70%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0) 100%);
-  mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0) 100%);
+  z-index: 15;
 }
 
-@keyframes enterKeyframes {
+@keyframes logo-spin {
   0% {
-    opacity: 0;
-    transform: translateY(18px);
+    transform: rotate(0deg);
   }
   100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInKeyframes {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.animate-enter {
-  animation: enterKeyframes 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-fadeIn {
-  animation: fadeInKeyframes 0.35s ease-out forwards;
-}
-
-/* Studio X inspired mobile nav logo rotate & scale */
-@keyframes logoRotateScale {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(180deg) scale(0.8);
-  }
-  100% {
-    transform: rotate(360deg) scale(1);
+    transform: rotate(360deg);
   }
 }
 
 .animate-logo-spin {
-  animation: logoRotateScale 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Studio X layered inner shadows for dark translucent bar */
-.nav-inner-shadow-3 {
-  box-shadow: inset 3px 4.5px 1.5px -3px rgba(255, 255, 255, 0.2);
-}
-
-.nav-inner-shadow-4 {
-  box-shadow: inset -3px -4.5px 1.5px -3px rgba(0, 0, 0, 0.35);
-}
-
-.nav-inner-shadow-5 {
-  box-shadow: inset 0 0 33px 0 rgba(255, 255, 255, 0.05);
-}
-
-/* Responsive styles matching reference specs */
-@media (max-width: 1024px) {
-  #hero-section,
-  div.relative.top-\[-84px\] {
-    cursor: auto;
-  }
-}
-
-@media (max-width: 700px) {
-  #hero-section,
-  div.relative.top-\[-84px\] {
-    cursor: auto;
-  }
-}
-
-@media (max-width: 600px) {
-  #hero-section,
-  div.relative.top-\[-84px\] {
-    cursor: auto;
-  }
-}
-
-/* Bento Grid Fluid Gradient & Liquid Mesh Animations */
-@keyframes fluidMeshMove {
-  0% {
-    background-position: 0% 50%;
-  }
-  25% {
-    background-position: 50% 100%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  75% {
-    background-position: 50% 0%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes liquidOrbFloat1 {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(35px, -30px) scale(1.18);
-  }
-  66% {
-    transform: translate(-30px, 25px) scale(0.88);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-}
-
-@keyframes liquidOrbFloat2 {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(-35px, 30px) scale(0.86);
-  }
-  66% {
-    transform: translate(30px, -20px) scale(1.22);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-}
-
-/* Charcoal Vessel: Rich Rose-Mauve (#F4B6AE ↔ #E58C80) */
-.bento-fluid-rose {
-  background: linear-gradient(
-    130deg,
-    #f4b6ae 0%,
-    #ffccc4 25%,
-    #e58c80 50%,
-    #f09c91 75%,
-    #f4b6ae 100%
-  );
-  background-size: 300% 300%;
-  animation: fluidMeshMove 6.5s ease-in-out infinite;
-  will-change: background-position;
-  transform: translateZ(0);
-}
-
-/* Terracotta Tumbler: Deep Terracotta to Vibrant Sunset Amber (#E05A2B ↔ #F38C45) */
-.bento-fluid-terracotta {
-  background: linear-gradient(
-    125deg,
-    #e05a2b 0%,
-    #ffa46b 25%,
-    #f38c45 50%,
-    #c44216 75%,
-    #e05a2b 100%
-  );
-  background-size: 300% 300%;
-  animation: fluidMeshMove 6s ease-in-out infinite;
-  will-change: background-position;
-  transform: translateZ(0);
-}
-
-/* Lavender Vessel: Creamy Vanilla Gold to Soft Electric Lilac (#FBE698 ↔ #D0B7FA) */
-.bento-fluid-lavender {
-  background: linear-gradient(
-    135deg,
-    #fbe698 0%,
-    #fff0b3 25%,
-    #d0b7fa 50%,
-    #b996f8 75%,
-    #fbe698 100%
-  );
-  background-size: 300% 300%;
-  animation: fluidMeshMove 7s ease-in-out infinite;
-  will-change: background-position;
-  transform: translateZ(0);
-}
-
-.animate-liquid-orb-1 {
-  animation: liquidOrbFloat1 7s ease-in-out infinite;
-}
-
-.animate-liquid-orb-2 {
-  animation: liquidOrbFloat2 8.5s ease-in-out infinite;
+  animation: logo-spin 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
