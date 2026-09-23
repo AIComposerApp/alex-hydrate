@@ -1,4 +1,5 @@
 import React from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { StorySection } from './components/StorySection';
@@ -35,6 +36,9 @@ export default function App() {
 
       {/* Architectural Deep Footer with Inward Rounded Edge, Pill Subscribe & TikTok Credit */}
       <Footer />
+
+      {/* Vercel Web Analytics */}
+      <Analytics />
     </div>
   );
 }

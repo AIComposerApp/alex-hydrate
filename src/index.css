@@ -204,6 +204,7 @@
 /* Fast-scroll composite optimization: prevent browser tile drops and white checkerboarding */
 #product-showcase-section,
 #meet-alex,
+#vessel-3d-showcase,
 #alex-footer,
 #story-section,
 .category-row-container {
@@ -212,3 +213,34 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
+
+/* GSAP-inspired Staggered Vertical Slide-up & Fade-in Entrance Animation */
+@keyframes gsapHeroSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-stagger-item {
+  opacity: 0;
+  animation: gsapHeroSlideUp 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.hero-stagger-delay-1 {
+  animation-delay: 0.15s;
+}
+
+.hero-stagger-delay-2 {
+  animation-delay: 0.32s;
+}
+
+.hero-stagger-delay-3 {
+  animation-delay: 0.48s;
+}
+

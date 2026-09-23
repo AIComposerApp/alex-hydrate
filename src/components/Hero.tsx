@@ -63,16 +63,16 @@ export const Hero: React.FC = () => {
       <div className="blur-overlay"></div>
 
       {/* Hero Title Container */}
-      <div className="container relative z-20 mx-auto px-6 sm:px-10 lg:px-16 pb-28 md:pb-24 lg:pb-28 w-full animate-enter">
+      <div className="container relative z-20 mx-auto px-6 sm:px-10 lg:px-16 pb-28 md:pb-24 lg:pb-28 w-full">
         {/* MOBILE / PHONE LAYOUT: Exact layout from user's uploaded image */}
         <div className="md:hidden flex flex-col text-left max-w-[340px] sm:max-w-[420px]">
           {/* Row 1: Engineered */}
-          <h2 className="text-[46px] sm:text-[56px] text-white font-normal leading-[0.98] tracking-[-0.03em]">
+          <h2 className="hero-stagger-item hero-stagger-delay-1 text-[46px] sm:text-[56px] text-white font-normal leading-[0.98] tracking-[-0.03em]">
             Engineered
           </h2>
 
           {/* Row 2: "for" + side-by-side architectural subtitle stacked */}
-          <div className="flex items-center gap-3.5 sm:gap-4.5 my-0.5 sm:my-1">
+          <div className="hero-stagger-item hero-stagger-delay-2 flex items-center gap-3.5 sm:gap-4.5 my-0.5 sm:my-1">
             <span className="text-[46px] sm:text-[56px] text-white font-normal leading-[0.98] tracking-[-0.03em]">
               for
             </span>
@@ -83,17 +83,17 @@ export const Hero: React.FC = () => {
           </div>
 
           {/* Row 3: Hydration */}
-          <h2 className="text-[46px] sm:text-[56px] text-white font-normal leading-[0.98] tracking-[-0.03em]">
+          <h2 className="hero-stagger-item hero-stagger-delay-3 text-[46px] sm:text-[56px] text-white font-normal leading-[0.98] tracking-[-0.03em]">
             Hydration
           </h2>
         </div>
 
         {/* TABLET & DESKTOP LAYOUT: Strictly ON ONE LINE */}
         <div className="hidden md:flex flex-col items-center text-center mx-auto max-w-6xl">
-          <span className="text-xs lg:text-sm font-medium text-white/85 tracking-[0.2em] mb-2 lg:mb-3">
+          <span className="hero-stagger-item hero-stagger-delay-1 text-xs lg:text-sm font-medium text-white/85 tracking-[0.2em] mb-2 lg:mb-3">
             The Architecture of Hydration
           </span>
-          <h1 className="whitespace-nowrap text-5xl lg:text-7xl xl:text-[84px] text-white font-normal leading-none tracking-[-0.035em]">
+          <h1 className="hero-stagger-item hero-stagger-delay-2 whitespace-nowrap text-5xl lg:text-7xl xl:text-[84px] text-white font-normal leading-none tracking-[-0.035em]">
             Engineered for Pure Hydration
           </h1>
         </div>
