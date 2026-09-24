@@ -1,6 +1,6 @@
 # ALEX — Architectural Luxury Product Showcase Template
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/mathewudochukwu656/alex-hydration)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AIComposerApp/alex-hydrate)
 
 ALEX is an ultra-premium, dark-mode architectural product showcase template built with **React 19**, **Vite**, **Tailwind CSS v4**, and **Motion**. Engineered with tactile 360° product carousels, scroll-driven typographic reveals, modular bento grids, and integrated Vercel Analytics.
 
@@ -10,7 +10,7 @@ Designed to be **100% template-ready** and easily customized by any developer or
 
 ## ⚡ 1-Click Deploy to Vercel
 
-Click the button above or [deploy here](https://vercel.com/new/clone?repository-url=https://github.com/mathewudochukwu656/alex-hydration) to instantly clone this repository to your GitHub account and deploy it live to Vercel in under 60 seconds.
+Click the button above or [deploy here](https://vercel.com/new/clone?repository-url=https://github.com/AIComposerApp/alex-hydrate) to instantly clone this repository to your GitHub account and deploy it live to Vercel in under 60 seconds.
 
 ---
 
@@ -63,8 +63,8 @@ Read src/siteConfig.ts. Rebrand this website for [YOUR BRAND NAME], a [YOUR PROD
 
 ### 1. Clone & Install
 ```bash
-git clone https://github.com/mathewudochukwu656/alex-hydration.git
-cd alex-hydration
+git clone https://github.com/AIComposerApp/alex-hydrate.git
+cd alex-hydrate
 npm install
 ```
 
