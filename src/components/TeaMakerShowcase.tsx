@@ -1,59 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { ProductVariant } from '../types';
+import { siteConfig } from '../siteConfig';
 
-const PRODUCT_VARIANTS: ProductVariant[] = [
-  {
-    id: 'bottle-1',
-    name: 'Ocean Cobalt',
-    edition: 'Cobalt Edition',
-    description: 'Deep, electric and resolute — engineered for high-altitude endurance and crisp hydration.',
-    sliderImage:
-      'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto:good,w_850/v1789829484/bottle_1_bg_t1zgmw.png',
-    thumbImage:
-      'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto:good,w_140/v1789829484/bottle_1_bg_t1zgmw.png',
-  },
-  {
-    id: 'bottle-2',
-    name: 'Alpine Sage',
-    edition: 'Sage Edition',
-    description: 'Organic forest earth tones balanced with surgical-grade 304 stainless steel purity.',
-    sliderImage:
-      'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto:good,w_850/v1789829551/bottle_2_bg_pixvuw.png',
-    thumbImage:
-      'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto:good,w_140/v1789829551/bottle_2_bg_pixvuw.png',
-  },
-  {
-    id: 'bottle-3',
-    name: 'Obsidian Black',
-    edition: 'Obsidian Edition',
-    description: 'Tactile stealth matte coat. Scratch-resistant, architectural, and eternally timeless.',
-    sliderImage:
-      'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto:good,w_850/v1789829497/bottle_3_bg_fpsl1j.png',
-    thumbImage:
-      'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto:good,w_140/v1789829497/bottle_3_bg_fpsl1j.png',
-  },
-  {
-    id: 'bottle-4',
-    name: 'Canyon Coral',
-    edition: 'Coral Edition',
-    description: 'Warm, radiant earth pigment celebrating active daylight exploration and modern form.',
-    sliderImage:
-      'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto:good,w_850/v1789829511/bottle_4_bg_pmmv4h.png',
-    thumbImage:
-      'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto:good,w_140/v1789829511/bottle_4_bg_pmmv4h.png',
-  },
-  {
-    id: 'bottle-5',
-    name: 'Desert Sand',
-    edition: 'Sand Edition',
-    description: 'Subtle neutral warmth paired with a leakproof dual-thread modular cap construction.',
-    sliderImage:
-      'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto:good,w_850/v1789829519/bottle_5_bg_y8ejlh.png',
-    thumbImage:
-      'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto:good,w_140/v1789829519/bottle_5_bg_y8ejlh.png',
-  },
-];
+const PRODUCT_VARIANTS: ProductVariant[] = siteConfig.showcase.variants;
 
 // Helper to calculate circular relative offset (-2, -1, 0, 1, 2)
 function getOffset(index: number, activeIndex: number, total: number): number {

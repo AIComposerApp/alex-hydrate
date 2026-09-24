@@ -1,89 +1,92 @@
-# ALEX — Form Follows Hydration
+# ALEX — Architectural Luxury Product Showcase Template
 
-ALEX is a premium, minimalist hydration web experience that re-engineers the everyday water bottle into a high-end architectural design object. Featuring interactive 3D product showcases, scroll-driven typographic reveals, modular engineering breakdowns, and responsive mobile-first navigation.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/mathewudochukwu656/alex-hydration)
 
----
+ALEX is an ultra-premium, dark-mode architectural product showcase template built with **React 19**, **Vite**, **Tailwind CSS v4**, and **Motion**. Engineered with tactile 360° product carousels, scroll-driven typographic reveals, modular bento grids, and integrated Vercel Analytics.
 
-## 🌟 Key Features
-
-- **Interactive 360° Product Carousel (`TeaMakerShowcase`)**:
-  - Direct hardware-accelerated transforms (`translate3d`, `scale`) for zero input latency and 120fps+ interaction.
-  - Progressive depth-of-field and radial occlusion shielding for product variants without costly GPU shader blurs.
-  - Responsive desktop custom drag follower cursor with touch swipe support.
-  - Performance optimizations including `React.memo`, `useMemo`, and `IntersectionObserver` lazy image decoding.
-- **Scroll-Driven Typography (`StorySection`)**:
-  - Split-line typography reveal animation synchronized with viewport scroll depth.
-- **Category Navigation (`CategoryRow`)**:
-  - Tactile, high-contrast category tiles with hover image reveals and touch-friendly scroll containers.
-- **Modular Design Breakdown (`InnovationSection`)**:
-  - Exploded view and engineering highlight cards celebrating ALEX's patented clean two-part modular bottle assembly.
-- **Responsive Floating Header & Mobile Navigation**:
-  - Floating top capsule on desktop/tablet, bottom quick-access control bar on mobile devices.
+Designed to be **100% template-ready** and easily customized by any developer or AI coding agent.
 
 ---
 
-## 🛠 Tech Stack
+## ⚡ 1-Click Deploy to Vercel
 
-- **Framework**: [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **Motion**: [Motion (Framer Motion)](https://motion.dev/)
-- **Typography**: Plus Jakarta Sans
+Click the button above or [deploy here](https://vercel.com/new/clone?repository-url=https://github.com/mathewudochukwu656/alex-hydration) to instantly clone this repository to your GitHub account and deploy it live to Vercel in under 60 seconds.
 
 ---
 
-## 🚀 Getting Started
+## 🛠 How to Use as a GitHub Template
 
-### Prerequisites
-
-Ensure you have [Node.js](https://nodejs.org/) (v18 or higher recommended) and `npm`, `pnpm`, or `bun` installed.
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/<your-username>/alex-hydration.git
-   cd alex-hydration
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-4. Open your browser and navigate to:
-   ```
-   http://localhost:3000
-   ```
+1. Click the green **"Use this template"** button at the top right of this repository.
+2. Select **"Create a new repository"**.
+3. Name your new project and clone it locally.
 
 ---
 
-## 📜 Available Scripts
+## 🎨 Single-File Customization (`src/siteConfig.ts`)
 
-- `npm run dev`: Starts the local Vite development server at `http://localhost:3000`
-- `npm run build`: Compiles TypeScript and builds production-optimized static assets to `/dist`
-- `npm run preview`: Locally previews the production build
-- `npm run lint`: Validates TypeScript types across the entire codebase (`tsc --noEmit`)
-- `npm run clean`: Cleans generated distribution artifacts
+You don't need to hunt through dozens of component files to customize this website. **All brand information, product lines, headlines, colors, images, and videos are centralized in a single configuration file**:
+
+👉 **`src/siteConfig.ts`**
+
+### Re-brand in 1 Prompt with ANY AI Coding Agent
+Open your project in Cursor, Windsurf, Claude Code, or Copilot, and send this prompt:
+
+```text
+Read src/siteConfig.ts. Rebrand this website for [YOUR BRAND NAME], a [YOUR PRODUCT TYPE, e.g. luxury watch / specialty espresso maker / minimalist backpack]. Update the brand details, hero headlines, product images, 360 variants, and bento specs in src/siteConfig.ts. Keep all existing layout geometry and spring physics intact.
+```
 
 ---
 
-## 🌐 Deployment
+## 🌟 Key Features & Components
 
-The build output generated in `dist/` is completely static and can be deployed directly to:
-- **Vercel**: Import repository and deploy with Vite presets.
-- **Netlify**: Set build command to `npm run build` and publish directory to `dist`.
-- **GitHub Pages**: Deploy the `dist` folder using `gh-pages` or GitHub Actions.
-- **Cloud Run / Docker**: Serve the `dist` folder using Nginx, Caddy, or Node.
+- **Tactile 360° Product Carousel (`TeaMakerShowcase.tsx`)**:
+  - Direct hardware-accelerated GPU transforms (`translate3d`, `scale`) for zero latency interaction.
+  - Custom drag follower cursor with touch swipe support.
+  - Interactive colorway swatches with real-time liquid text fill.
+- **Scroll-Driven Story Reveal (`StorySection.tsx`)**:
+  - Split-line typography reveal synchronized with viewport scroll depth.
+  - Floating illuminated pill images embedded directly into the editorial text flow.
+- **Interactive Category Matrix (`CategoryRow.tsx`)**:
+  - Tactile high-contrast category tiles with synchronized vertical offsets and hover image reveals.
+- **Modular Bento Grid (`InnovationSection.tsx`)**:
+  - Clean specs, material engineering highlights, and responsive column spans.
+- **Architectural Deep Footer (`Footer.tsx`)**:
+  - Smooth scroll parallax bottle projection with inward-curved geometry and minimalist newsletter input.
+- **Floating Responsive Navigation (`Header.tsx`)**:
+  - Desktop/tablet top floating capsule; mobile bottom floating navigation bar.
+- **Vercel Web Analytics**:
+  - Integrated via `@vercel/analytics/react`.
+
+---
+
+## 💻 Local Development
+
+### 1. Clone & Install
+```bash
+git clone https://github.com/mathewudochukwu656/alex-hydration.git
+cd alex-hydration
+npm install
+```
+
+### 2. Start Dev Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 3. Build for Production
+```bash
+npm run build
+```
+
+---
+
+## 🤖 AI Coding Agent Compatibility
+This repository includes:
+- `.cursorrules` — Project rules, design conventions, and constraints for Cursor and Windsurf.
+- `AGENT_GUIDE.md` — Universal architectural reference for Claude Code, Copilot, v0, Bolt, and Lovable.
 
 ---
 
 ## 📄 License
-
-Apache-2.0
+MIT License. Free to use for personal and commercial client projects.

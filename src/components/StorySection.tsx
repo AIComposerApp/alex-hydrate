@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { siteConfig } from '../siteConfig';
 
 export const StorySection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const { story } = siteConfig;
   const [lineProgress, setLineProgress] = useState<number[]>([0, 0, 0]);
   const [imgProgress, setImgProgress] = useState<number[]>([0, 0, 0]);
   const targetProgressRef = useRef<number>(0);
@@ -93,7 +95,7 @@ export const StorySection: React.FC = () => {
         {/* Brand Tag / Badge */}
         <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-neutral-50 px-4 py-1.5 text-xs font-medium text-black/60 shadow-xs">
           <span className="h-1.5 w-1.5 rounded-full bg-black/40" />
-          ALEX Philosophy
+          {story.badge}
         </div>
 
         {/* Editorial Headline with Responsive Organization & 180° Linear Horizontal Reveal */}
@@ -104,7 +106,7 @@ export const StorySection: React.FC = () => {
               style={getLinearStyle(0)}
               className="text-[26px] sm:text-[34px] md:text-[42px] lg:text-[50px] xl:text-[56px] font-normal leading-[1.32] sm:leading-[1.28] tracking-tight lg:tracking-[-1.5px]"
             >
-              At ALEX, we blend innovation with tradition to
+              {story.line1}
             </h3>
           </div>
 
@@ -114,14 +116,14 @@ export const StorySection: React.FC = () => {
               style={getLinearStyle(1)}
               className="text-[26px] sm:text-[34px] md:text-[42px] lg:text-[50px] xl:text-[56px] font-normal leading-[1.32] sm:leading-[1.28] tracking-tight lg:tracking-[-1.5px]"
             >
-              elevate your hydration rituals
+              {story.line2Text1}
             </h3>
 
             {/* Pill Image 1 */}
             <span className="inline-flex items-center justify-center rounded-full overflow-hidden border border-black/10 shadow-xs transition-all duration-300 transform-gpu my-0.5">
               <img
-                src="https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_500/v1789815423/Water_bottle_on_concrete_ledge_2K_20260919115425_zpk4af.jpg"
-                alt="ALEX Water Bottle on Concrete Ledge"
+                src={story.pillImages[0]}
+                alt="Product preview 1"
                 className="h-7 w-14 sm:h-9 sm:w-20 md:h-11 md:w-24 lg:h-13 lg:w-28 xl:h-14 xl:w-32 object-cover transition-all duration-300 hover:scale-105"
                 style={{
                   opacity: 0.45 + 0.55 * imgProgress[0],
@@ -136,7 +138,7 @@ export const StorySection: React.FC = () => {
               style={getLinearStyle(1)}
               className="text-[26px] sm:text-[34px] md:text-[42px] lg:text-[50px] xl:text-[56px] font-normal leading-[1.32] sm:leading-[1.28] tracking-tight lg:tracking-[-1.5px]"
             >
-              crafting products
+              {story.line2Text2}
             </h3>
           </div>
 
@@ -146,14 +148,14 @@ export const StorySection: React.FC = () => {
               style={getLinearStyle(2)}
               className="text-[26px] sm:text-[34px] md:text-[42px] lg:text-[50px] xl:text-[56px] font-normal leading-[1.32] sm:leading-[1.28] tracking-tight lg:tracking-[-1.5px]"
             >
-              for extraordinary
+              {story.line3Text1}
             </h3>
 
             {/* Pill Image 2 */}
             <span className="inline-flex items-center justify-center rounded-full overflow-hidden border border-black/10 shadow-xs transition-all duration-300 transform-gpu my-0.5">
               <img
-                src="https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_500/v1789815427/Terracotta_water_bottle_stands_u__2K_20260919115442_ryhxk0.jpg"
-                alt="ALEX Terracotta Water Bottle"
+                src={story.pillImages[1]}
+                alt="Product preview 2"
                 className="h-7 w-14 sm:h-9 sm:w-20 md:h-11 md:w-24 lg:h-13 lg:w-28 xl:h-14 xl:w-32 object-cover transition-all duration-300 hover:scale-105"
                 style={{
                   opacity: 0.45 + 0.55 * imgProgress[1],
@@ -170,13 +172,13 @@ export const StorySection: React.FC = () => {
                 style={getLinearStyle(2)}
                 className="text-[26px] sm:text-[34px] md:text-[42px] lg:text-[50px] xl:text-[56px] font-normal leading-[1.32] sm:leading-[1.28] tracking-tight lg:tracking-[-1.5px]"
               >
-                moments.
+                {story.line3Text2}
               </h3>
 
               <span className="inline-flex items-center justify-center rounded-full overflow-hidden border border-black/10 shadow-xs transition-all duration-300 transform-gpu my-0.5">
                 <img
-                  src="https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_500/v1789815419/Water_bottle_on_desk_2K_20260919115409_xrujpy.jpg"
-                  alt="ALEX Water Bottle in Studio Setting"
+                  src={story.pillImages[2]}
+                  alt="Product preview 3"
                   className="h-7 w-14 sm:h-9 sm:w-20 md:h-11 md:w-24 lg:h-13 lg:w-28 xl:h-14 xl:w-32 object-cover transition-all duration-300 hover:scale-105"
                   style={{
                     opacity: 0.45 + 0.55 * imgProgress[2],

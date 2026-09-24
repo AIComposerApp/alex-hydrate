@@ -1,48 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { CategoryItem } from '../types';
+import { siteConfig } from '../siteConfig';
 
-const CATEGORY_ITEMS: CategoryItem[] = [
-  {
-    id: 'cobalt-blue',
-    title: 'Cobalt Edition',
-    image: 'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_1000/v1789821662/Blue_reusable_water_bottle_2K_20260919133818_fba0gj.jpg',
-    ctas: [
-      { label: 'Buy Now', href: '#all-products' },
-      { label: 'Explore', href: '#product-showcase-section' },
-    ],
-    restOffsetY: 'translate-y-[34px]',
-  },
-  {
-    id: 'sage-olive',
-    title: 'Sage Edition',
-    image: 'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_1000/v1789821618/892768326127050232.jpg_2K_20260919133814_rog3sd.jpg',
-    ctas: [
-      { label: 'Buy Now', href: '#all-products' },
-      { label: 'Explore', href: '#product-showcase-section' },
-    ],
-    restOffsetY: 'translate-y-[34px]',
-  },
-  {
-    id: 'charcoal-matte',
-    title: 'Charcoal Edition',
-    image: 'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_1000/v1789821615/Charcoal_grey_water_bottle_2K_20260919133823_e6op4h.jpg',
-    ctas: [
-      { label: 'Buy Now', href: '#all-products' },
-      { label: 'Explore', href: '#product-showcase-section' },
-    ],
-    restOffsetY: 'translate-y-[34px]',
-  },
-  {
-    id: 'terracotta-canyon',
-    title: 'Terracotta Edition',
-    image: 'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_1000/v1789821613/Terracotta_orange_water_bottle_2K_20260919133830_tzogno.jpg',
-    ctas: [
-      { label: 'Buy Now', href: '#all-products' },
-      { label: 'Explore', href: '#product-showcase-section' },
-    ],
-    restOffsetY: 'translate-y-[34px]',
-  },
-];
+const CATEGORY_ITEMS: CategoryItem[] = siteConfig.categories;
 
 export const CategoryRow: React.FC = () => {
   // On mobile, whichever card is in the center of the viewport becomes active/pill-shaped.

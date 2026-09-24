@@ -1,8 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { siteConfig } from '../siteConfig';
 
 export const Hero: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const { hero, brand } = siteConfig;
 
   useEffect(() => {
     // Ensure muted is set on the native element to guarantee instant mobile autoplay
@@ -29,8 +31,8 @@ export const Hero: React.FC = () => {
       <img
         id="hero-fallback-image"
         className="absolute inset-0 z-0 h-full w-full object-cover object-center"
-        src="https://res.cloudinary.com/divndlntm/video/upload/Water_pouring_into_bottle_1080p_20260920185607_zt6kh6.jpg"
-        alt="ALEX — Form Follows Hydration"
+        src={hero.fallbackImage}
+        alt={`${brand.name} — ${brand.tagline}`}
         loading="eager"
         decoding="async"
         fetchPriority="high"
@@ -43,18 +45,18 @@ export const Hero: React.FC = () => {
         className={`absolute inset-0 z-10 h-full w-full object-cover object-center transition-opacity duration-500 ${
           isVideoLoaded ? 'opacity-100' : 'opacity-90'
         }`}
-        aria-label="ALEX — Perfected by Technology"
+        aria-label={`${brand.name} — ${hero.badge}`}
         autoPlay
         loop
         muted
         playsInline
         preload="auto"
-        poster="https://res.cloudinary.com/divndlntm/video/upload/Water_pouring_into_bottle_1080p_20260920185607_zt6kh6.jpg"
+        poster={hero.fallbackImage}
         onLoadedData={() => setIsVideoLoaded(true)}
         onCanPlay={() => setIsVideoLoaded(true)}
       >
         <source
-          src="https://res.cloudinary.com/divndlntm/video/upload/Water_pouring_into_bottle_1080p_20260920185607_zt6kh6.mp4"
+          src={hero.videoMp4}
           type="video/mp4"
         />
       </video>
@@ -68,33 +70,33 @@ export const Hero: React.FC = () => {
         <div className="md:hidden flex flex-col text-left max-w-[340px] sm:max-w-[420px]">
           {/* Row 1: Engineered */}
           <h2 className="hero-stagger-item hero-stagger-delay-1 text-[46px] sm:text-[56px] text-white font-normal leading-[0.98] tracking-[-0.03em]">
-            Engineered
+            {hero.mobileTitle.row1}
           </h2>
 
           {/* Row 2: "for" + side-by-side architectural subtitle stacked */}
           <div className="hero-stagger-item hero-stagger-delay-2 flex items-center gap-3.5 sm:gap-4.5 my-0.5 sm:my-1">
             <span className="text-[46px] sm:text-[56px] text-white font-normal leading-[0.98] tracking-[-0.03em]">
-              for
+              {hero.mobileTitle.row2Prefix}
             </span>
             <div className="flex flex-col text-xs sm:text-sm font-medium leading-tight text-white/90 tracking-normal pt-1">
-              <span>Architectural</span>
-              <span>Design</span>
+              <span>{hero.mobileTitle.row2Badge[0]}</span>
+              <span>{hero.mobileTitle.row2Badge[1]}</span>
             </div>
           </div>
 
           {/* Row 3: Hydration */}
           <h2 className="hero-stagger-item hero-stagger-delay-3 text-[46px] sm:text-[56px] text-white font-normal leading-[0.98] tracking-[-0.03em]">
-            Hydration
+            {hero.mobileTitle.row3}
           </h2>
         </div>
 
         {/* TABLET & DESKTOP LAYOUT: Strictly ON ONE LINE */}
         <div className="hidden md:flex flex-col items-center text-center mx-auto max-w-6xl">
           <span className="hero-stagger-item hero-stagger-delay-1 text-xs lg:text-sm font-medium text-white/85 tracking-[0.2em] mb-2 lg:mb-3">
-            The Architecture of Hydration
+            {hero.badge}
           </span>
           <h1 className="hero-stagger-item hero-stagger-delay-2 whitespace-nowrap text-5xl lg:text-7xl xl:text-[84px] text-white font-normal leading-none tracking-[-0.035em]">
-            Engineered for Pure Hydration
+            {hero.titleDesktop}
           </h1>
         </div>
       </div>

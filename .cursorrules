@@ -1,0 +1,34 @@
+# ARCHITECTURAL CODING AGENT RULES (.cursorrules)
+
+## Project Overview
+This repository is an ultra-premium, dark-mode architectural product showcase template built with React 19, Vite, Tailwind CSS v4, and Motion.
+
+## Core Rules & Single Source of Truth
+1. **Central Configuration (`src/siteConfig.ts`)**:
+   - ALL brand information, headlines, copy, media URLs (videos/images), colorways, product specs, and navigation links live in `src/siteConfig.ts`.
+   - When customizing, re-branding, or adapting this website for a new product, ONLY update `src/siteConfig.ts`.
+   - Do NOT hardcode brand copy, product details, or image URLs directly into components.
+
+2. **Design Language & Visual Constitution**:
+   - Background: Pure black `#000000` or architectural off-white `#faf9f6` for distinct content sections.
+   - Accents: Subtle border opacity (`border-white/10`, `border-neutral-800`), deep inward-rounded card geometry, and micro-frost glass effects (`backdrop-blur-md`).
+   - Anti-AI Slop: No generic centered blue gradients or cliché AI cards. Keep typography tight with letter-spacing tracking (`tracking-[-0.03em]`), clean weights, and whitespace discipline.
+
+3. **Animation & Physics**:
+   - Motion Library: Use `motion` (`motion/react`).
+   - Physics: Tactile, organic spring physics with `stiffness: 300`, `damping: 30`, `mass: 0.8` for UI interactions; smooth scroll tracking via `useScroll` and `useSpring`.
+   - Direct GPU transforms: Prefer `translate3d`, `scale`, and opacity over animating layout properties (`left`, `top`, `width`, `height`).
+
+4. **Component Hierarchy**:
+   - `Header.tsx`: Floating pill navigation with blur overlay and mobile bottom drawer.
+   - `Hero.tsx`: Full-bleed video background with typographic overlay.
+   - `StorySection.tsx`: Scroll-driven horizontal text reveal with synchronized preview image pills.
+   - `CategoryRow.tsx`: Interactive category cards with synchronized image offsets and hover reveals.
+   - `TeaMakerShowcase.tsx`: Draggable 360° product slider with GPU accelerated carousel and color swatches.
+   - `InnovationSection.tsx`: Bento grid breakdown of product specifications and features.
+   - `Footer.tsx`: Inward-curved architectural deep footer with scroll-animated bottle parallax.
+
+5. **Tooling & Commands**:
+   - Dev Server: `npm run dev`
+   - Production Build: `npm run build`
+   - Type Checking & Linting: `npm run lint` (or `tsc --noEmit`)

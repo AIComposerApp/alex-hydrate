@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowUpRight, X } from 'lucide-react';
+import { siteConfig } from '../siteConfig';
 
 interface BentoProduct {
   id: string;
@@ -22,71 +23,11 @@ interface BentoProduct {
   };
 }
 
-const BENTO_PRODUCTS: BentoProduct[] = [
-  {
-    id: 'charcoal-food-jar',
-    badge: 'Culinary Vessel',
-    title: 'Thermal Food Jar',
-    tagline: 'Charcoal Edition',
-    description: 'Wide-mouth vacuum insulation. Engineered to lock heat for 8 hours or chill for 14.',
-    image: 'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_900/v1789930529/charcoal_food_jar_bg_pqkjur.png',
-    imageAlt: 'ALEX Charcoal Grey Insulated Food Jar',
-    ctaText: 'Explore Vessel',
-    gradientClass: 'bento-fluid-rose',
-    theme: 'light',
-    imagePosition: 'right',
-    desktopGridSpan: 'lg:col-span-12',
-    specs: {
-      capacity: '16 fl oz / 473 ml',
-      temperature: '8h Hot • 14h Cold',
-      material: 'Pro-grade 18/8 Recycled Stainless Steel',
-      care: '100% Dishwasher safe with ergonomic handle',
-    },
-  },
-  {
-    id: 'orange-tumbler',
-    badge: 'Transit Vessel',
-    title: 'Active Tumbler',
-    tagline: 'Terracotta Edition',
-    description: 'Double-wall cold lock with stealth loop cap engineered for seamless daily commute.',
-    image: 'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_900/v1789929734/orange_tumbler_bg_xejwuq.png',
-    imageAlt: 'ALEX Terracotta Orange Water Bottle Tumbler',
-    ctaText: 'Explore Tumbler',
-    gradientClass: 'bento-fluid-terracotta',
-    theme: 'terracotta',
-    imagePosition: 'right',
-    desktopGridSpan: 'lg:col-span-6',
-    specs: {
-      capacity: '24 fl oz / 710 ml',
-      temperature: '24h Cold • 12h Hot',
-      material: 'Impact-resistant matte powder coated steel',
-      care: 'Cup-holder friendly & leak-proof seal',
-    },
-  },
-  {
-    id: 'lavender-food-jar',
-    badge: 'Modular Hardware',
-    title: 'Aluminum Carabiner',
-    tagline: 'Lavender Edition',
-    description: 'Ultralight aerospace-grade aluminum with snag-free wiregate. Fastens ALEX vessels securely to bags and gear.',
-    image: 'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_900/v1789930520/ChatGPT_Image_Sep_20_2026_07_39_08_PM_dowxqm.png',
-    imageAlt: 'ALEX Lavender Aluminum Carabiner Clip',
-    ctaText: 'Explore Carabiner',
-    gradientClass: 'bento-fluid-lavender',
-    theme: 'light',
-    imagePosition: 'left',
-    desktopGridSpan: 'lg:col-span-6',
-    specs: {
-      capacity: 'Tested to 500 lbs tensile rating',
-      temperature: 'All-weather anodized finish',
-      material: 'Aerospace-grade 6061 forged aluminum',
-      care: 'Snag-free stainless steel wire spring gate',
-    },
-  },
-];
+const BENTO_PRODUCTS: BentoProduct[] = siteConfig.innovation.products as BentoProduct[];
 
 export const InnovationSection: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<BentoProduct | null>(null);
+  const { innovation } = siteConfig;
 
   return (
     <section
@@ -97,14 +38,16 @@ export const InnovationSection: React.FC = () => {
         {/* Section Header */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 sm:mb-16 lg:mb-20">
           <span className="inline-block rounded-full border border-black/10 bg-transparent px-4 py-1.5 font-medium text-black/60 text-xs tracking-normal mb-3 sm:mb-4">
-            ALEX Ecosystem
+            {innovation.badge}
           </span>
           <h2 className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[54px] font-normal leading-[1.18] tracking-tight lg:tracking-[-1.5px] text-[#121212]">
-            Everyday vessels. Sculpted for life.
+            {innovation.heading}
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-neutral-600 font-normal max-w-xl">
-            Clean architectural lines, food-grade thermal precision, and sustainable matte materials across every format.
-          </p>
+          {innovation.description && (
+            <p className="mt-3 text-sm sm:text-base text-neutral-600 font-normal max-w-xl">
+              {innovation.description}
+            </p>
+          )}
         </div>
 
         {/* Bento Grid on Desktop | Overhead Non-Overlapping Stack on Mobile */}

@@ -1,60 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, ChevronRight, ShoppingBag, Sparkles } from 'lucide-react';
+import { siteConfig } from '../siteConfig';
 
-const BRAND_ICON_URL =
-  'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_120/v1789854644/ChatGPT_Image_Sep_19_2026_10_49_29_PM_batoch.png';
-
-const ALEX_CATEGORIES = [
-  { name: 'Modular Bottles', active: true },
-  { name: 'ThermaShield™ Insulated', active: false },
-  { name: 'Natural Cork Series', active: false },
-  { name: 'Stealth Loop Caps', active: false },
-  { name: 'Mix & Match Halves', active: false },
-  { name: 'Cleaning & Care', active: false },
-  { name: 'All Products', active: false, href: '#all-products' },
-];
-
-const ALEX_BOTTLE_PRODUCTS = [
-  {
-    title: 'ALEX Modular Pro 20oz',
-    subtitle: 'Patented Mid-Body Seam',
-    color: 'Matte Obsidian',
-    tag: 'Best Seller',
-    img: 'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_400/v1789815827/Water_bottles_on_stone_pedestals_2K_20260919120313_b5nlv5.jpg',
-    href: '#alex-20oz-obsidian',
-  },
-  {
-    title: 'ALEX Terracotta Edition',
-    subtitle: 'Triple-Walled Vacuum',
-    color: 'Raw Terracotta',
-    tag: 'Architectural',
-    img: 'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_400/v1789815427/Terracotta_water_bottle_stands_u__2K_20260919115442_ryhxk0.jpg',
-    href: '#alex-terracotta',
-  },
-  {
-    title: 'ALEX Modular Slate 32oz',
-    subtitle: 'Full-Day Hydration',
-    color: 'Monochrome Slate',
-    tag: 'Cold 36h',
-    img: 'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_400/v1789815423/Water_bottle_on_concrete_ledge_2K_20260919115425_zpk4af.jpg',
-    href: '#alex-slate',
-  },
-  {
-    title: 'ALEX Studio Edition 20oz',
-    subtitle: 'Built-in Natural Coaster',
-    color: 'Matte Graphite',
-    tag: 'Signature Base',
-    img: 'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_400/v1789815419/Water_bottle_on_desk_2K_20260919115409_xrujpy.jpg',
-    href: '#alex-desk',
-  },
-];
-
-const ALEX_PHILOSOPHY_LINKS = [
-  { label: 'The Modular Body', desc: 'Unscrews in the middle for effortless cleaning & ice loading', href: '#modular-body' },
-  { label: 'Form Follows Hydration', desc: 'Zero loud logos or cheap plastic', href: '#philosophy' },
-  { label: 'ThermaShield™ Insulation', desc: 'Triple-walled vacuum (36h cold / 12h hot)', href: '#thermashield' },
-  { label: '90% Recycled Steel & Cork', desc: 'Eco-conscious circular materials', href: '#materials' },
-];
+const BRAND_ICON_URL = siteConfig.brand.logoIconUrl;
+const ALEX_CATEGORIES = siteConfig.header.categories;
+const ALEX_BOTTLE_PRODUCTS = siteConfig.header.products;
+const ALEX_PHILOSOPHY_LINKS = siteConfig.header.philosophyLinks;
 
 export const Header: React.FC = () => {
   const [activeDropdown, setActiveDropdown] = useState<'products' | 'philosophy' | null>(null);

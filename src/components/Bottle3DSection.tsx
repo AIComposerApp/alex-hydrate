@@ -334,7 +334,7 @@ export const Bottle3DSection: React.FC = () => {
 
     loader.load(
       MODEL_URL,
-      (gltf) => {
+      (gltf: any) => {
         if (isDisposed) return;
 
         const model = gltf.scene;
@@ -359,7 +359,7 @@ export const Bottle3DSection: React.FC = () => {
         shadowMesh.position.y = scaledBottomY - 0.01;
 
         // 10. RE-ENGINEER MESH GEOMETRY & MATERIALS FOR 100% PHOTOREALISM:
-        model.traverse((child) => {
+        model.traverse((child: any) => {
           if ((child as THREE.Mesh).isMesh) {
             const mesh = child as THREE.Mesh;
 
@@ -442,7 +442,7 @@ export const Bottle3DSection: React.FC = () => {
         setLoading(false);
         setLoadProgress(100);
       },
-      (xhr) => {
+      (xhr: any) => {
         if (xhr.total > 0) {
           const percent = Math.round((xhr.loaded / xhr.total) * 100);
           setLoadProgress(percent);
@@ -450,7 +450,7 @@ export const Bottle3DSection: React.FC = () => {
           setLoadProgress((prev) => Math.min(92, prev + 15));
         }
       },
-      (error) => {
+      (error: any) => {
         console.error('Error loading 3D model:', error);
         if (!isDisposed) {
           setLoadError('Failed to load 3D vessel asset.');

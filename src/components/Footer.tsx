@@ -1,28 +1,19 @@
 import React, { useState, useRef } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
+import { siteConfig } from '../siteConfig';
 
 // Brand icon is the stylized "A" glyph
-const BRAND_ICON_A =
-  'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_120/v1789854644/ChatGPT_Image_Sep_19_2026_10_49_29_PM_batoch.png';
-
-const FOOTER_BOTTLE_IMG =
-  'https://res.cloudinary.com/divndlntm/image/upload/f_auto,q_auto,w_1000/v1789934332/ChatGPT_Image_Sep_20_2026_08_54_23_PM_ofm4es.png';
-
-const TIKTOK_URL = 'https://www.tiktok.com/@vixcee_vibes?_r=1&_t=ZS-99tlPUTeU4L';
+const BRAND_ICON_A = siteConfig.brand.logoIconUrl;
+const FOOTER_BOTTLE_IMG = siteConfig.footer.bottleImage;
+const TIKTOK_URL = siteConfig.footer.tiktokUrl;
 
 interface NavLink {
   label: string;
   href: string;
 }
 
-const PRIMARY_LINKS: NavLink[] = [
-  { label: 'Modular Vessels', href: '#best-sellers-section' },
-  { label: 'Active Tumbler', href: '#meet-alex' },
-  { label: 'Thermal Food Jar', href: '#meet-alex' },
-  { label: 'Aluminum Carabiner', href: '#meet-alex' },
-  { label: 'Care & Lifetime Warranty', href: '#story-section' },
-];
+const PRIMARY_LINKS: NavLink[] = siteConfig.footer.primaryLinks;
 
 export const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -231,7 +222,7 @@ export const Footer: React.FC = () => {
 
         {/* Minimal Bottom Bar: Simple Copyright positioned strictly in left/center space */}
         <div className="relative z-20 mt-12 sm:mt-16 pt-5 flex items-center justify-between text-[11px] text-neutral-400 max-w-sm sm:max-w-md">
-          <span>© {new Date().getFullYear()} ALEX Bottle Inc. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} {siteConfig.brand.copyrightText}</span>
           <span>Culver City, CA</span>
         </div>
       </div>
